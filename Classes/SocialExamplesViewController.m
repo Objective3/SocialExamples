@@ -24,7 +24,6 @@ static double kFacebookTemplateBundleID = 89565091133;
 	
 	_twitterEngine = [[[MGTwitterEngine alloc] initWithDelegate:self] retain];
 	[_twitterEngine setClientName:@"SocialExamples" version:@"1.0" URL:@"http://www.objective3.com/" token:@"SocialExamples"];
-	sendTweetOnSuccess = NO;
 }
 
 - (void)dealloc {
@@ -176,7 +175,6 @@ static double kFacebookTemplateBundleID = 89565091133;
 
 - (void)twitterLoginWasSuccessful {	
 	[_twitterButton setTitle:@"Send Tweet" forState:UIControlStateNormal];	
-	sendTweetOnSuccess = YES;
 	NSString* twitterUsername = [_twitterLoginViewController username];
 	NSString* twitterPassword = [_twitterLoginViewController password];
 	[_twitterEngine setUsername:twitterUsername password:twitterPassword];
@@ -195,19 +193,12 @@ static double kFacebookTemplateBundleID = 89565091133;
 	NSLog(@"Sending Tweet: %@", tweet);
 }
 
-#pragma mark MGTwitterEngine Delegate
+#pragma mark MGTwitterEngineDelegate Methods
 
 - (void)requestSucceeded:(NSString *)connectionIdentifier {
     NSLog(@"Request succeeded for connectionIdentifier = %@", connectionIdentifier);
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	if (sendTweetOnSuccess == YES) {
-		NSLog(@"Send Tweet");
-		[self performSelectorOnMainThread:@selector(presentTweetViewController) withObject:nil waitUntilDone:NO];
-		sendTweetOnSuccess = NO;
-	} else {
-		sendTweetOnSuccess = NO;
-		[self playSharingSound];
-	}	
+	[self playSharingSound];
 }
 
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error {
@@ -216,9 +207,10 @@ static double kFacebookTemplateBundleID = 89565091133;
           [error localizedDescription], 
           [error userInfo]);
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	if (sendTweetOnSuccess == YES) {
-		sendTweetOnSuccess = NO;
-	}
+	
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Twitter Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle: NSLocalizedString(@"Cancel", nil) otherButtonTitles: nil];
+	[alert show];
+	[alert release];
 }
 
 @end
