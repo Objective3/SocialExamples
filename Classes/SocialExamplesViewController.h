@@ -16,6 +16,7 @@
 // Twitter support
 #define USE_LIBXML 1
 #import "MGTwitterEngine.h"
+#import "TwitterLoginViewController.h"
 
 @interface SocialExamplesViewController : UIViewController <FBSessionDelegate, FBStatusUpdateRequestDelegate, FBDialogDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
 	// Facebook
@@ -23,6 +24,8 @@
 	
 	// Twitter
 	MGTwitterEngine* _twitterEngine;
+	TwitterLoginViewController* _twitterLoginViewController;
+	BOOL sendTweetOnSuccess;
 	
 	// Posting Sound
 	CFURLRef		_soundFileURLRef;
@@ -30,11 +33,16 @@
 	
 	// Outlets
 	IBOutlet UIButton* _facebookButton;
+	IBOutlet UIButton* _twitterButton;
 }
 
 - (IBAction)facebookButtonWasPressed:(id)sender;
 - (void)postToFacebook;
 - (void)setFacebookStatus;
+
+- (IBAction)twitterButtonWasPressed;
+- (void)presentTweetViewController;
+
 - (void)setupSharingSound;
 - (void)playSharingSound;
 

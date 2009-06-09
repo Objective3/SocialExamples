@@ -8,6 +8,7 @@
 
 #import "SocialExamplesViewController.h"
 #import "FBStatusUpdateRequest.h"
+#import "TweetViewController.h"
 
 @implementation SocialExamplesViewController
 
@@ -20,6 +21,10 @@ static double kFacebookTemplateBundleID = 89565091133;
 	[self setupSharingSound];
 	
 	_session = [[FBSession sessionForApplication:kFacebookAPIKey secret:kFacebookAPISecret delegate:self] retain];
+	
+	_twitterEngine = [[[MGTwitterEngine alloc] initWithDelegate:self] retain];
+	[_twitterEngine setClientName:@"SocialExamples" version:@"1.0" URL:@"http://www.objective3.com/" token:@"SocialExamples"];
+	sendTweetOnSuccess = NO;
 }
 
 - (void)dealloc {
@@ -35,7 +40,7 @@ static double kFacebookTemplateBundleID = 89565091133;
 	[super dealloc];
 }
 
-#pragma mark Actions
+#pragma mark Facebook Actions
 
 - (IBAction)facebookButtonWasPressed:(id)sender {
 	if (! [_session isConnected]) {
@@ -155,6 +160,65 @@ static double kFacebookTemplateBundleID = 89565091133;
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	[self facebookButtonWasPressed:self];
+}
+
+#pragma mark Twitter Actions
+
+- (IBAction)twitterButtonWasPressed {
+	if ([_twitterEngine username] == nil) {
+		_twitterLoginViewController = [[TwitterLoginViewController alloc] initWithNibName:@"TwitterLoginView" bundle:nil];
+		_twitterLoginViewController.delegate = self;
+		[self presentModalViewController:_twitterLoginViewController animated:YES];
+	} else {
+		[self presentTweetViewController];
+	}
+}
+
+- (void)twitterLoginWasSuccessful {	
+	[_twitterButton setTitle:@"Send Tweet" forState:UIControlStateNormal];	
+	sendTweetOnSuccess = YES;
+	NSString* twitterUsername = [_twitterLoginViewController username];
+	NSString* twitterPassword = [_twitterLoginViewController password];
+	[_twitterEngine setUsername:twitterUsername password:twitterPassword];
+	[self performSelector:@selector(presentTweetViewController) withObject:nil afterDelay:0.5]; //wait until the login view is done being dismissed
+}
+
+- (void)presentTweetViewController {	
+	TweetViewController *tweetController = [[TweetViewController alloc] initWithTweetString:@"Playing around with SocialExamples" delegate:self];
+	[self presentModalViewController:tweetController animated:YES];
+}
+
+- (void)sendTweetWithString:(NSString *)tweet {
+	NSLog(@"Proceeding to send tweet");	
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;	
+	[_twitterEngine sendUpdate:tweet];
+	NSLog(@"Sending Tweet: %@", tweet);
+}
+
+#pragma mark MGTwitterEngine Delegate
+
+- (void)requestSucceeded:(NSString *)connectionIdentifier {
+    NSLog(@"Request succeeded for connectionIdentifier = %@", connectionIdentifier);
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	if (sendTweetOnSuccess == YES) {
+		NSLog(@"Send Tweet");
+		[self performSelectorOnMainThread:@selector(presentTweetViewController) withObject:nil waitUntilDone:NO];
+		sendTweetOnSuccess = NO;
+	} else {
+		sendTweetOnSuccess = NO;
+		[self playSharingSound];
+	}	
+}
+
+- (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error {
+    NSLog(@"Request failed for connectionIdentifier = %@, error = %@ (%@)", 
+          connectionIdentifier, 
+          [error localizedDescription], 
+          [error userInfo]);
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	if (sendTweetOnSuccess == YES) {
+		sendTweetOnSuccess = NO;
+	}
 }
 
 @end
