@@ -1,0 +1,8 @@
+This application provides example code for working with Twitter and Facebook.
+
+You must initialize the submodules before the application will build:
+
+$ git submodule init
+$ git submodule update
+
+- The Objective 3 Team

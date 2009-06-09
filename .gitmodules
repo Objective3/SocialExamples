@@ -1,0 +1,6 @@
+[submodule "Libraries/MGTwitterEngine"]
+	path = Libraries/MGTwitterEngine
+	url = git://github.com/Objective3/MGTwitterEngine.git
+[submodule "Libraries/FBConnect_Extensions"]
+	path = Libraries/FBConnect_Extensions
+	url = git://github.com/Objective3/FBConnect_Extentions.git
