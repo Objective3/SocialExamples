@@ -182,7 +182,7 @@ static double kFacebookTemplateBundleID = 89565091133;
 }
 
 - (void)presentTweetViewController {	
-	TweetViewController *tweetController = [[TweetViewController alloc] initWithTweetString:@"Playing around with SocialExamples" delegate:self];
+	TweetViewController *tweetController = [[TweetViewController alloc] initWithTweetString:@"Playing around with SocialExamples (http://bit.ly/18f8zg)" delegate:self];
 	[self presentModalViewController:tweetController animated:YES];
 }
 
