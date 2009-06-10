@@ -18,14 +18,14 @@
 #import "MGTwitterEngine.h"
 #import "TwitterLoginViewController.h"
 
-@interface SocialExamplesViewController : UIViewController <FBSessionDelegate, FBStatusUpdateRequestDelegate, FBDialogDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
+@interface SocialExamplesViewController : UIViewController <FBSessionDelegate, FBStatusUpdateRequestDelegate, FBDialogDelegate, 
+															UIActionSheetDelegate, UIAlertViewDelegate, MGTwitterEngineDelegate> {
 	// Facebook
 	FBSession* _session;
 	
 	// Twitter
 	MGTwitterEngine* _twitterEngine;
 	TwitterLoginViewController* _twitterLoginViewController;
-	BOOL sendTweetOnSuccess;
 	
 	// Posting Sound
 	CFURLRef		_soundFileURLRef;
