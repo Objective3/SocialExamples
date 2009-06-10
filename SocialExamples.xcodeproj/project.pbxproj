@@ -87,7 +87,7 @@
 		256D74690FDEEA9600422E5B /* pre-rebase.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "pre-rebase.sample"; sourceTree = "<group>"; };
 		256D746A0FDEEA9600422E5B /* prepare-commit-msg.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "prepare-commit-msg.sample"; sourceTree = "<group>"; };
 		256D746B0FDEEA9600422E5B /* update.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = update.sample; sourceTree = "<group>"; };
-		256D746C0FDEEA9600422E5B /* index */ = {isa = PBXFileReference; lastKnownFileType = file; path = index; sourceTree = "<group>"; };
+		256D746C0FDEEA9600422E5B /* index */ = {isa = PBXFileReference; lastKnownFileType = text; path = index; sourceTree = "<group>"; };
 		256D746E0FDEEA9600422E5B /* exclude */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exclude; sourceTree = "<group>"; };
 		256D747A0FDEEA9700422E5B /* pack-abd4598345b108c03cba21d0a9ba7a53d3b350c5.idx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pack-abd4598345b108c03cba21d0a9ba7a53d3b350c5.idx"; sourceTree = "<group>"; };
 		256D747B0FDEEA9700422E5B /* pack-abd4598345b108c03cba21d0a9ba7a53d3b350c5.pack */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pack-abd4598345b108c03cba21d0a9ba7a53d3b350c5.pack"; sourceTree = "<group>"; };
